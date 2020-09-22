@@ -19,7 +19,7 @@ module Navigable
       end
 
       def find(segment)
-        find_node(segment) { |params| yield(symbolize_keys(params)) if params && block_given? } unless empty?
+        find_node(segment) { |params| yield(symbolize_keys(params)) if params && block_given? }
       end
 
       def attach(endpoint)
@@ -39,6 +39,8 @@ module Navigable
       end
 
       def find_node(segment, &block)
+        return if empty?
+
         find_static(segment, &block) || find_dynamic(segment, &block)
       end
 
