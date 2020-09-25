@@ -137,4 +137,18 @@ RSpec.describe Navigable::Router do
   describe '#delete' do
     it_behaves_like 'a registered route', method: :delete
   end
+
+  describe '#print' do
+    subject(:print) { router.print }
+    let(:printer) { instance_double(Navigable::Router::Printer, print: true) }
+
+    before do
+      allow(Navigable::Router::Printer).to receive(:new).and_return(printer)
+      print
+    end
+
+    it 'delegates to the printer' do
+      expect(printer).to have_received(:print)
+    end
+  end
 end

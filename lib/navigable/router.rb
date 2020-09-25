@@ -4,6 +4,7 @@ require 'mustermann'
 
 require 'navigable/router/version'
 require 'navigable/router/trie'
+require 'navigable/router/printer'
 
 module Navigable
   class Router
@@ -48,6 +49,10 @@ module Navigable
     def call(env)
       endpoint = find_endpoint(env[REQUEST_METHOD], env[PATH_INFO]) { |params| env[ROUTER_PARAMS] = params }
       endpoint ? endpoint.call(env) : NOT_FOUND_RESPONSE
+    end
+
+    def print(stdout = STDOUT)
+      Printer.new(@static, @dynamic, stdout).print
     end
 
     private

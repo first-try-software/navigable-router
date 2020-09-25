@@ -26,6 +26,10 @@ module Navigable
         node&.endpoint
       end
 
+      def print(verb, routes)
+        @root.print(verb, routes)
+      end
+
       private
 
       def traverse(path)

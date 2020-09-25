@@ -26,6 +26,11 @@ module Navigable
         @endpoint = endpoint
       end
 
+      def print(verb, routes, prefix = '')
+        print_segments(@static, routes, verb, prefix)
+        print_segments(@dynamic, routes, verb, prefix)
+      end
+
       private
 
       def add_static(segment)
@@ -69,6 +74,13 @@ module Navigable
 
       def symbolize_keys(hash)
         hash.each_with_object({}) { |(key, value), obj| obj[key.to_sym] = value }
+      end
+
+      def print_segments(segments, routes, verb, prefix)
+        segments&.each do |segment, node|
+          routes << { verb: verb, path: "#{prefix}/#{segment}", endpoint: node.endpoint } if node.endpoint
+          node.print(verb, routes, "#{prefix}/#{segment}")
+        end
       end
     end
   end
