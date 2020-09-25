@@ -52,8 +52,6 @@ An extension of Navigable Server for building GraphQL APIs.
 </tr>
 </table>
 
-<br><br>
-
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -72,7 +70,25 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+To use `Navigable::Router` simply instantiate a router and add your routes:
+
+```ruby
+router = Navigable::Router.new
+router.get('/ahoy', to: -> (env) { [200, { 'Content-Type' => 'text/html' }, [ 'Ahoy!' ]] })
+```
+The destination of the route needs to respond to `#call`, like the lambda above, or these classes:
+
+```ruby
+router.get('/swabbies', to: ShowSwabbies)
+router.get('/swabbies/:id', to: ShowSwabbie)
+router.post('/swabbies', to: CreateSwabbie)
+router.put('/swabbies/:id', to: UpdateSwabbie)
+router.delete('/swabbies/:id', to: DeleteSwabbie)
+```
+To run the app, add this to your config.ru:
+```ruby
+run router
+```
 
 ## Development
 
